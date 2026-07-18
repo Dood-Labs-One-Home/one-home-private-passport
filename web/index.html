@@ -169,32 +169,76 @@ const processing = document.getElementById("processing");
 const success = document.getElementById("success");
 const failure = document.getElementById("failure");
 const credential = document.getElementById("credential");
+const verifyButton = document.getElementById("verify");
+const retryButton = document.getElementById("retry");
 
 function show(section) {
-  [locked, processing, success, failure].forEach(item => {
+  [locked, processing, success, failure].forEach((item) => {
     item.classList.add("hidden");
   });
+
   section.classList.remove("hidden");
 }
 
-document.getElementById("verify").addEventListener("click", () => {
+async function verifyPrivately() {
   const value = credential.value.trim();
 
   if (!value) {
     alert("Enter a private credential first.");
+    credential.focus();
     return;
   }
 
+  verifyButton.disabled = true;
+  verifyButton.textContent = "Verifying Privately...";
   show(processing);
 
-  setTimeout(() => {
-    const eligible = value === "ONEHOME";
+  try {
+    const response = await fetch("/api/verify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        credential: value
+      })
+    });
+
+    const result = await response.json();
+
     credential.value = "";
-    show(eligible ? success : failure);
-  }, 1200);
+
+    if (!response.ok) {
+      throw new Error(
+        result.error || "Private verification failed."
+      );
+    }
+
+    show(result.eligible ? success : failure);
+  } catch (error) {
+    alert(
+      error instanceof Error
+        ? error.message
+        : "Private verification failed."
+    );
+
+    show(locked);
+    credential.focus();
+  } finally {
+    verifyButton.disabled = false;
+    verifyButton.textContent = "Verify Privately";
+  }
+}
+
+verifyButton.addEventListener("click", verifyPrivately);
+
+credential.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    verifyPrivately();
+  }
 });
 
-document.getElementById("retry").addEventListener("click", () => {
+retryButton.addEventListener("click", () => {
   show(locked);
   credential.focus();
 });
