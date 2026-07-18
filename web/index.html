@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Home Private Passport</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 24px;
+  display: grid;
+  place-items: center;
+  font-family: Arial, sans-serif;
+  color: #f8f3e8;
+  background: radial-gradient(circle at top, #183b50, #07141c 70%);
+}
+
+.passport {
+  width: min(680px, 100%);
+  padding: 40px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 28px;
+  background: rgba(8,25,35,.94);
+  box-shadow: 0 25px 70px rgba(0,0,0,.45);
+}
+
+.eyebrow {
+  color: #e2bd73;
+  font-weight: bold;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 10px 0;
+  font-size: clamp(38px, 7vw, 58px);
+}
+
+.tagline {
+  margin-bottom: 32px;
+  color: #d7e3e8;
+  font-size: 20px;
+}
+
+.room {
+  padding: 30px;
+  border-radius: 22px;
+  background: rgba(255,255,255,.06);
+}
+
+.icon { font-size: 54px; }
+
+h2 { margin: 14px 0; }
+
+.copy {
+  margin: 0 auto 24px;
+  line-height: 1.6;
+  color: #c6d3d8;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  text-align: left;
+  font-weight: bold;
+}
+
+input, button {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  font-size: 17px;
+}
+
+input {
+  border: 1px solid rgba(255,255,255,.25);
+  color: white;
+  background: #071720;
+}
+
+button {
+  margin-top: 16px;
+  border: 0;
+  cursor: pointer;
+  font-weight: bold;
+  color: #10202a;
+  background: #e2bd73;
+}
+
+.note {
+  margin-top: 18px;
+  font-size: 14px;
+  color: #98abb4;
+}
+
+.hidden { display: none; }
+.success { color: #8ee1b0; }
+.failure { color: #ff9e9e; }
+</style>
+</head>
+
+<body>
+<main class="passport">
+  <p class="eyebrow">One Home</p>
+  <h1>Private Passport</h1>
+  <p class="tagline">Prove what matters. Reveal nothing else.</p>
+
+  <section id="locked" class="room">
+    <div class="icon">🔒</div>
+    <h2>Founder Room Locked</h2>
+
+    <p class="copy">
+      Privately prove that you possess a qualifying credential
+      without exposing your identity, wallet balances,
+      collectibles, or transaction history.
+    </p>
+
+    <label for="credential">Private credential</label>
+
+    <input
+      id="credential"
+      type="password"
+      placeholder="Enter your private credential"
+      autocomplete="off"
+    >
+
+    <button id="verify" type="button">Verify Privately</button>
+
+    <p class="note">
+      Only the eligible or not eligible result will be displayed.
+    </p>
+  </section>
+
+  <section id="processing" class="room hidden">
+    <div class="icon">◌</div>
+    <h2>Creating Your Private Proof</h2>
+    <p class="copy">Your credential remains private.</p>
+  </section>
+
+  <section id="success" class="room hidden">
+    <div class="icon">🔓</div>
+    <h2 class="success">Eligibility Verified</h2>
+    <p class="copy">
+      Your qualifying credential was confirmed without revealing
+      the private information behind it.
+    </p>
+    <button type="button">Enter the Founder Room</button>
+  </section>
+
+  <section id="failure" class="room hidden">
+    <div class="icon">🔒</div>
+    <h2 class="failure">Eligibility Not Verified</h2>
+    <p class="copy">
+      No qualifying proof was confirmed. No private information
+      was revealed.
+    </p>
+    <button id="retry" type="button">Try Again</button>
+  </section>
+</main>
+
+<script>
+const locked = document.getElementById("locked");
+const processing = document.getElementById("processing");
+const success = document.getElementById("success");
+const failure = document.getElementById("failure");
+const credential = document.getElementById("credential");
+
+function show(section) {
+  [locked, processing, success, failure].forEach(item => {
+    item.classList.add("hidden");
+  });
+  section.classList.remove("hidden");
+}
+
+document.getElementById("verify").addEventListener("click", () => {
+  const value = credential.value.trim();
+
+  if (!value) {
+    alert("Enter a private credential first.");
+    return;
+  }
+
+  show(processing);
+
+  setTimeout(() => {
+    const eligible = value === "ONEHOME";
+    credential.value = "";
+    show(eligible ? success : failure);
+  }, 1200);
+});
+
+document.getElementById("retry").addEventListener("click", () => {
+  show(locked);
+  credential.focus();
+});
+</script>
+</body>
+</html>
