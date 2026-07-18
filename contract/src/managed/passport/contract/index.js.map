@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "file": "index.js",
+  "sourceRoot": "../../../../",
+  "sources": ["src/passport.compact"],
+  "names": [],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;EAeA;;;;;;;;;;;;;MAMA,AAAA,iBAOC;;;;;;;;;;;;;;;;;;;;;;OAAA;MAED,AAAA,oBAEC;;;;;;;;;;;;;;;;;;;;;;OAAA;MAED,AAAA,wBAEC;;;;;;;;;;;;;;;;;;;;;;;OAAA;;;;;;;;;;;;GAjBA;EAJD;;;;;UAAY,yBAA8B;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IAJ1C;;;;;;;;;yEAAwC;IACxC;;;;;;;;;yEAAuC;IACvC;;;;;;;;;yEAA6C;IAG3C;;;;;;;2HAA8B,yBAAuB;;yEAAnC;UAClB,KAAiB;IAAjB;;;;;;;2HAAA,KAAiB;;yEAAA;IACjB;;;;;;;;;yEAAqB;;;;;;;GACtB;EAVD,AAAA,oBAAmC;;0DAAnC,iBAAmC;;;;;;;;;;;;;;GAAA;EAYnC,AAAA,oBAOC;UANO,UAAoD;;+CAAlB;;;;;;;;;;;oHAAkB;IAE1D;;;;;;;2HAAiC,UAAQ;;yEAApB;UACrB,KAAiB,qDAAY;;;;;;;;;;;yIAAiB;;IAA9C;;;;;;;2HAAA,KAAiB;;yEAAA;WAED,UAAQ;GACzB;EAED,AAAA,uBAEC;mCADQ;;;;;;;;;;;wGAAiB;GACzB;EAED,AAAA,2BAEC;mCADQ;;;;;;;;;;;wGAAqB;GAC7B;;;;;;;;;;;;;;;;IAzBD;qCAAA;;;;;;;;;;;0GAAwC;KAAA;IACxC;qCAAA;;;;;;;;;;;0GAAuC;KAAA;IACvC;qCAAA;;;;;;;;;;;0GAA6C;KAAA;;;;;;;;;;;;"
+}

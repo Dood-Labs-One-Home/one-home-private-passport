@@ -1,0 +1,37 @@
+pragma language_version >= 0.20;
+
+import CompactStandardLibrary;
+
+// One Home Private Passport
+//
+// The user's credential is supplied privately through a witness.
+// Only the final eligible / not eligible result is disclosed.
+
+witness privateCredential(): Field;
+
+export ledger requiredCredential: Field;
+export ledger verificationCount: Field;
+export ledger lastEligibilityResult: Boolean;
+
+constructor(requiredCredentialValue: Field) {
+  requiredCredential = disclose(requiredCredentialValue);
+  verificationCount = disclose(0 as Field);
+  lastEligibilityResult = disclose(false);
+}
+
+export circuit verifyEligibility(): Boolean {
+  const eligible = privateCredential() == requiredCredential;
+
+  lastEligibilityResult = disclose(eligible);
+  verificationCount = disclose(verificationCount + 1);
+
+  return disclose(eligible);
+}
+
+export circuit getVerificationCount(): Field {
+  return verificationCount;
+}
+
+export circuit getLastEligibilityResult(): Boolean {
+  return lastEligibilityResult;
+}

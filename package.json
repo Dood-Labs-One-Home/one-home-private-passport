@@ -1,0 +1,7 @@
+{
+  "name": "one-home-private-passport",
+  "private": true,
+  "workspaces": [
+    "contract"
+  ]
+}
