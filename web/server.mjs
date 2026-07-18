@@ -17,7 +17,7 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = 8080;
+const PORT = Number(process.env.PORT || 8080);
 const QUALIFYING_CREDENTIAL = "ONEHOME";
 
 function credentialToField(value) {
@@ -98,9 +98,16 @@ async function readJsonBody(request) {
 
 const server = http.createServer(async (request, response) => {
   try {
+    const requestUrl = new URL(
+      request.url || "/",
+      `http://${request.headers.host || "localhost"}`
+    );
+
+    const pathname = requestUrl.pathname;
+
     if (
       request.method === "POST" &&
-      request.url === "/api/verify"
+      pathname === "/api/verify"
     ) {
       const body = await readJsonBody(request);
       const credential =
@@ -126,7 +133,7 @@ const server = http.createServer(async (request, response) => {
 
     if (
       request.method === "GET" &&
-      (request.url === "/" || request.url === "/index.html")
+      (pathname === "/" || pathname === "/index.html")
     ) {
       const indexPath = path.join(__dirname, "index.html");
       const html = await fs.readFile(indexPath);
@@ -140,8 +147,18 @@ const server = http.createServer(async (request, response) => {
       return;
     }
 
+    if (
+      request.method === "GET" &&
+      pathname === "/favicon.ico"
+    ) {
+      response.writeHead(204);
+      response.end();
+      return;
+    }
+
     sendJson(response, 404, {
-      error: "Not found"
+      error: "Not found",
+      path: pathname
     });
   } catch (error) {
     console.error(
