@@ -3,5 +3,14 @@
   "private": true,
   "workspaces": [
     "contract"
-  ]
+  ],
+  "scripts": {
+    "start": "node web/server.mjs",
+    "compile:contract": "npm run compact --workspace=contract",
+    "build:contract": "npm run build --workspace=contract",
+    "test:passport": "node contract/test-private-passport.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
 }
